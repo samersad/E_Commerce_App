@@ -11,7 +11,7 @@ showDialog(barrierDismissible: false,context: context, builder: (context) => Ale
     children: [
       CircularProgressIndicator(color: AppColors.primaryColor,),
       SizedBox(width:20,),
-      Text(msg ,style: AppStyles.medium16black,)
+      Text(msg ,style: AppStyles.medium18black,)
     ],
   ),
 )
@@ -46,8 +46,8 @@ static void hideLoading({required BuildContext context}){
    }
    showDialog(context: context, builder: (context) {
       return AlertDialog(
-        content: Text(msg,style: AppStyles.medium16black,),
-        title:Text(title ?? "" ,style: AppStyles.medium16black,) ,
+        content: Text(msg,style: AppStyles.medium18black,),
+        title:Text(title ?? "" ,style: AppStyles.medium18black,) ,
         actions: actions
         );
     },);

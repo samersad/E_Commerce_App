@@ -57,14 +57,14 @@ class AppStyles{
   fontWeight: FontWeight.bold,
     color: AppColors.whiteColor
   );
-  static  TextStyle medium16black=GoogleFonts.elMessiri(
-  fontSize: 16,
+  static  TextStyle medium18black=GoogleFonts.elMessiri(
+  fontSize: 18,
   fontWeight: FontWeight.w700,
-    color: AppColors.blackColor
+    color: AppColors.hintTextColor
   );
-  static  TextStyle medium16white=TextStyle(
-  fontSize: 16,
-  fontWeight: FontWeight.w700,
+  static  TextStyle regular18white=TextStyle(
+  fontSize: 18,
+  fontWeight: FontWeight.w500,
     color: AppColors.whiteColor
   );
   static  TextStyle medium16Gray=TextStyle(
@@ -92,9 +92,9 @@ class AppStyles{
   fontWeight: FontWeight.w600,
     color: AppColors.whiteColor
   );
-  static  TextStyle regular14White=TextStyle(
-  fontSize: 14,
-  fontWeight: FontWeight.w300,
+  static  TextStyle regular16White=TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
     color: AppColors.whiteColor
   );
   static  TextStyle bold16black=TextStyle(
