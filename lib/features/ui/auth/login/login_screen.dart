@@ -53,7 +53,6 @@ class _LoginScreenState extends State<LoginScreen> {
             nav: "Dismiss",
             posAction: () {
               Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(AppRoutes.registerRoute);
             },
           );
         }
@@ -151,10 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             Text(
                               "Don't have an account?",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.sp,
-                              ),
+                              style: AppStyles.regular18white
                             ),
                             TextButton(
                               onPressed: () {
@@ -162,12 +158,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   context,
                                 ).pushReplacementNamed(AppRoutes.registerRoute);
                               },
-                              child: const Text(
+                              child:  Text(
                                 "Create Account",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  decoration: TextDecoration.underline,
-                                ),
+                                style: AppStyles.bold16White
                               ),
                             ),
                           ],

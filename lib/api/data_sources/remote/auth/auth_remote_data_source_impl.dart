@@ -17,7 +17,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
   Future<AuthResponse> login(LoginRequest loginRequest) async {
     //todo from loginRequest =>to  loginRequestDto
    var authResponse=await  apiServices.login(loginRequest.toLoginRequestDto());
-   //todo from AuthResponse =>to  AuthResponseDto
+   //todo from AuthResponseDto =>to  AuthResponse
    return authResponse.toAuthResponse();
   }
 

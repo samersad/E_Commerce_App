@@ -51,7 +51,6 @@ RegisterViewModel viewModel =getIt<RegisterViewModel>();
             nav: "Dismiss",
             posAction: () {
               Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(AppRoutes.loginRoute);
             },
           );
         }
@@ -175,7 +174,30 @@ RegisterViewModel viewModel =getIt<RegisterViewModel>();
                             textStyle: AppStyles.bold20primary,
                             borderColor: Colors.transparent,
                             customPadding: 16.h,
-                          )
+                          ),
+                          SizedBox(height: 10.h),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Have an account?",
+                                style: AppStyles.regular18white
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(
+                                    context,
+                                  ).pushReplacementNamed(AppRoutes.loginRoute);
+                                },
+                                child:  Text(
+                                  "Login ",
+                                  style: AppStyles.bold16White
+                                ),
+                              ),
+                            ],
+                          ),
+
                         ],
                       )
                   ),
