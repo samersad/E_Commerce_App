@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commerce_app/core/utils/app_assets.dart';
 import 'package:e_commerce_app/core/utils/app_colors.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
-import 'package:e_commerce_app/domain/entities/response/category/category.dart';
+import 'package:e_commerce_app/domain/entities/response/common/category_or_brands.dart';
 import 'package:e_commerce_app/features/ui/pages/tabs/home_tab/cubit/home_tab_states.dart';
 import 'package:e_commerce_app/features/ui/pages/tabs/home_tab/widget/category_or_brand_item.dart';
 import 'package:e_commerce_app/features/ui/pages/tabs/home_tab/widget/loading_widget.dart';
@@ -30,13 +30,14 @@ class _HomeTabState extends State<HomeTab> {
     super.initState();
     // TODO: implement initState
    viewModel.getCategories();
+   viewModel.getBrands();
   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 8.w),
+        padding:  EdgeInsets.symmetric(horizontal: 10.w),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,8 +68,16 @@ class _HomeTabState extends State<HomeTab> {
             lineBreak(name: "Categories"),
             BlocBuilder<HomeTabViewModel,HomeTabStates>(
               bloc: viewModel,
+                buildWhen: (previous, state) {
+                  if (state is CategoriesSuccessState) {
+                    return true;
+                  }
+                  else{
+                    return false;
+                  }
+                },
                 builder: (context, state) {
-                  if (state is CategoriesErrorState) {
+                  if (state is CategoriesOrBrandsErrorState) {
                   return  MainErrorWidget(errorMessage: state.message,onPressed: () {
                     viewModel.getCategories();
                   },);
@@ -77,17 +86,37 @@ class _HomeTabState extends State<HomeTab> {
                     return _buildCategoryBrandSection(list: state.categoriesList);
                   }
 
-                  else if(state is CategoriesLoadingState) {
-                    return LoadingWidget();
-
-                  }
                   else{
-                    return Text("dssssssssssss");
+                    return LoadingWidget();
                   }
 
                 },
             ),
-           //     child:
+            lineBreak(name: "Brands"),
+            BlocBuilder<HomeTabViewModel,HomeTabStates>(
+              bloc: viewModel,
+              buildWhen: (previous, state) {
+                if (state is BrandsSuccessState) {
+                  return true;
+                }
+                else{
+                  return false;
+                }
+              },
+                builder: (context, state) {
+                  if (state is CategoriesOrBrandsErrorState) {
+                    return  MainErrorWidget(errorMessage: state.message,onPressed: () {
+                      viewModel.getCategories();
+                    },);
+                  }
+                  else if (state is BrandsSuccessState) {
+                    return _buildCategoryBrandSection(list: state.brandsList);
+                  }
+                  else{
+                    return LoadingWidget();
+                  }
+                },)
+
 
           ],
         ),
@@ -105,7 +134,7 @@ class _HomeTabState extends State<HomeTab> {
         autoPlay: true,
         autoPlayCurve: Curves.easeInBack,
         onPageChanged: (index, reason) {
-         //  viewModel.changeSelectedIndex(index);
+          viewModel.changeSelectedIndex(index);
         },
       ),
       items: viewModel.pannersList.map((item) {
@@ -113,25 +142,32 @@ class _HomeTabState extends State<HomeTab> {
           alignment: Alignment.bottomCenter,
           children: [
             Image.asset(item, fit: BoxFit.fill, width: double.infinity),
+
             Positioned(
               bottom: 20.h,
-              child: Row(
-                children: List.generate(
-                  viewModel.pannersList.length,
-                  (index) => AnimatedContainer(
-                    duration: Duration(milliseconds: 300),
-                    margin: EdgeInsets.symmetric(horizontal: 4),
-                    padding: EdgeInsets.only(top: 20.h),
-                    width: 10,
-                    height: 10,
-                    decoration: BoxDecoration(
-                      color: viewModel.currentIndex == index
-                          ? AppColors.primaryColor
-                          : Colors.white,
-                      shape: BoxShape.circle,
+              child: BlocBuilder<HomeTabViewModel, HomeTabStates>(
+                bloc: viewModel,
+                buildWhen: (previous, state) =>
+                state is ChangeSelectedIndexState,
+                builder: (context, state) {
+                  return Row(
+                    children: List.generate(
+                      viewModel.pannersList.length,
+                          (index) => AnimatedContainer(
+                        duration: Duration(milliseconds: 300),
+                        margin: EdgeInsets.symmetric(horizontal: 4),
+                        width: 10,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          color: viewModel.currentIndex == index
+                              ? AppColors.primaryColor
+                              : Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             ),
           ],
@@ -153,7 +189,7 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  SizedBox _buildCategoryBrandSection({required List<Category>? list}) {
+  SizedBox _buildCategoryBrandSection({required List<CategoryOrBrands>? list}) {
     return SizedBox(
       height: 300.h,
       width: double.infinity,
@@ -167,7 +203,7 @@ class _HomeTabState extends State<HomeTab> {
         physics: const ScrollPhysics(),
         itemCount: list!.length,
         itemBuilder: (context, index) {
-          return CategoryOrBrandItem(category: list![index],);
+          return CategoryOrBrandItem(item: list![index],);
         },
       ),
     );

@@ -1,10 +1,10 @@
-import 'package:e_commerce_app/api/model/response/category/category_dto.dart';
+import 'package:e_commerce_app/api/model/response/common/category_or_brands_dto.dart';
 
-import '../../domain/entities/response/category/category.dart';
+import '../../domain/entities/response/common/category_or_brands.dart';
 
-extension CategoryMapper on CategoryDto{
-  Category toCategory(){
-    return Category(
+extension CategoryMapper on CategoryOrBrandsDto{
+  CategoryOrBrands toCategoryOrBrands(){
+    return CategoryOrBrands(
       name: name,
       image: image,
       id: id,

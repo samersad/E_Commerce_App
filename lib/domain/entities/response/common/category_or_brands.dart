@@ -1,5 +1,5 @@
 
-class Category {
+class CategoryOrBrands {
   final String? id;
   final String? name;
   final String? slug;
@@ -7,7 +7,7 @@ class Category {
   final String? createdAt;
   final String? updatedAt;
 
-  Category ({
+  CategoryOrBrands ({
     this.id,
     this.name,
     this.slug,

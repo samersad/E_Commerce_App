@@ -17,16 +17,23 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart' as _i528;
 import '../api/api_services.dart' as _i124;
 import '../api/data_sources/remote/auth/auth_remote_data_source_impl.dart'
     as _i983;
+import '../api/data_sources/remote/category/brands_remote_data_source_impl.dart'
+    as _i456;
 import '../api/data_sources/remote/category/category_remote_data_source_impl.dart'
     as _i942;
 import '../api/dio/dio_module.dart' as _i223;
 import '../data/data_sources/remote/auth_remote_data_source.dart' as _i354;
+import '../data/data_sources/remote/brands/brands_remote_data_source.dart'
+    as _i1058;
 import '../data/data_sources/remote/category/category_remote_data_source.dart'
     as _i212;
 import '../data/repositories/auth/auth_repository_impl.dart' as _i27;
+import '../data/repositories/brands/brands_repository_impl.dart' as _i292;
 import '../data/repositories/category/category_repository_impl.dart' as _i478;
 import '../domain/repositories/auth/auth_repository.dart' as _i1064;
+import '../domain/repositories/brands/brands_repository.dart' as _i354;
 import '../domain/repositories/category/category_repository.dart' as _i579;
+import '../domain/use_cases/get_all_brands_use_case.dart' as _i823;
 import '../domain/use_cases/get_all_gategories_use_case.dart' as _i270;
 import '../domain/use_cases/login_use_case.dart' as _i826;
 import '../domain/use_cases/register_use_case.dart' as _i772;
@@ -63,6 +70,11 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i983.AuthRemoteDataSourceImpl(apiServices: gh<_i124.ApiServices>()),
     );
+    gh.factory<_i1058.BrandsRemoteDataSource>(
+      () => _i456.BrandsRemoteDataSourceImpl(
+        apiServices: gh<_i124.ApiServices>(),
+      ),
+    );
     gh.factory<_i212.CategoryRemoteDataSource>(
       () => _i942.CategoryRemoteDataSourceImpl(
         apiServices: gh<_i124.ApiServices>(),
@@ -76,6 +88,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1064.AuthRepository>(
       () => _i27.AuthRepositoryImpl(
         authRemoteDataSource: gh<_i354.AuthRemoteDataSource>(),
+      ),
+    );
+    gh.factory<_i354.BrandsRepository>(
+      () => _i292.BrandsRepositoryImpl(
+        remoteDataSource: gh<_i1058.BrandsRemoteDataSource>(),
       ),
     );
     gh.factory<_i826.LoginUseCase>(
@@ -93,13 +110,19 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i586.RegisterViewModel(registerUseCase: gh<_i772.RegisterUseCase>()),
     );
-    gh.factory<_i635.HomeTabViewModel>(
-      () => _i635.HomeTabViewModel(
-        getAllCategoriesUseCase: gh<_i270.GetAllCategoriesUseCase>(),
+    gh.factory<_i823.GetAllBrandsUseCase>(
+      () => _i823.GetAllBrandsUseCase(
+        brandsRepository: gh<_i354.BrandsRepository>(),
       ),
     );
     gh.factory<_i1040.LoginViewModel>(
       () => _i1040.LoginViewModel(loginUseCase: gh<_i826.LoginUseCase>()),
+    );
+    gh.factory<_i635.HomeTabViewModel>(
+      () => _i635.HomeTabViewModel(
+        getAllCategoriesUseCase: gh<_i270.GetAllCategoriesUseCase>(),
+        getAllBrandsUseCase: gh<_i823.GetAllBrandsUseCase>(),
+      ),
     );
     return this;
   }

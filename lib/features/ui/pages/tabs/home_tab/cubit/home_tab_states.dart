@@ -1,19 +1,22 @@
 
-import 'package:e_commerce_app/domain/entities/response/category/category.dart';
+import 'package:e_commerce_app/domain/entities/response/common/category_or_brands.dart';
 import 'package:e_commerce_app/domain/entities/response/category/category_response.dart';
 
 abstract class HomeTabStates {}
 class HomeTabInitialState extends HomeTabStates{}
-//class ChangeSelectedIndexState extends HomeTabStates{}
-class CategoriesLoadingState extends HomeTabStates{}
-class CategoriesErrorState extends HomeTabStates{
+class ChangeSelectedIndexState extends HomeTabStates{}
+class CategoriesOrBrandsLoadingState extends HomeTabStates{}
+class CategoriesOrBrandsErrorState extends HomeTabStates{
   String message;
-  CategoriesErrorState({required this.message});
+  CategoriesOrBrandsErrorState({required this.message});
 }
 class CategoriesSuccessState extends HomeTabStates{
- List<Category>? categoriesList;
+ List<CategoryOrBrands>? categoriesList;
   CategoriesSuccessState({required this.categoriesList});
 }
-class ChangeSelectedIndexState extends HomeTabStates{}
+class BrandsSuccessState extends HomeTabStates{
+ List<CategoryOrBrands>? brandsList;
+ BrandsSuccessState({required this.brandsList});
+}
 
 

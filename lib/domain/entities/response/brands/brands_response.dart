@@ -1,26 +1,20 @@
 
-
-import 'package:e_commerce_app/domain/entities/response/common/category_or_brands.dart';
-
+import '../common/category_or_brands.dart';
 import '../common/metadata.dart';
 
-class CategoryResponse {
+class BrandsResponse {
   final int? results;
   final Metadata? metadata;
   final List<CategoryOrBrands>? data;
 
-  CategoryResponse ({
+  BrandsResponse ({
     this.results,
     this.metadata,
     this.data,
   });
 
 
-
-
 }
-
-
 
 
 

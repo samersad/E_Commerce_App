@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'category_response_dto.dart';
+part of 'brands_response_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-CategoryResponseDto _$CategoryResponseDtoFromJson(Map<String, dynamic> json) =>
-    CategoryResponseDto(
+BrandsResponseDto _$BrandsResponseDtoFromJson(Map<String, dynamic> json) =>
+    BrandsResponseDto(
       results: (json['results'] as num?)?.toInt(),
       metadata: json['metadata'] == null
           ? null
@@ -17,10 +17,9 @@ CategoryResponseDto _$CategoryResponseDtoFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$CategoryResponseDtoToJson(
-  CategoryResponseDto instance,
-) => <String, dynamic>{
-  'results': instance.results,
-  'metadata': instance.metadata,
-  'data': instance.data,
-};
+Map<String, dynamic> _$BrandsResponseDtoToJson(BrandsResponseDto instance) =>
+    <String, dynamic>{
+      'results': instance.results,
+      'metadata': instance.metadata,
+      'data': instance.data,
+    };
