@@ -1,0 +1,14 @@
+
+import 'package:e_commerce_app/domain/entities/response/product/product.dart';
+import 'package:e_commerce_app/domain/repositories/product/product_repository.dart';
+import 'package:injectable/injectable.dart';
+
+@injectable
+class GetAllProductsUseCase{
+  ProductRepository productRepository;
+  GetAllProductsUseCase({required this.productRepository});
+  Future<List<Product>?> invoke(){
+    return productRepository.getAllProducts();
+  }
+
+}

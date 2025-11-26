@@ -6,7 +6,7 @@ import 'package:e_commerce_app/data/data_sources/remote/brands/brands_remote_dat
 import 'package:e_commerce_app/data/data_sources/remote/category/category_remote_data_source.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../domain/entities/response/common/category_or_brands.dart';
+import '../../../../../domain/entities/response/common/category_or_brands.dart';
 
 @Injectable(as: BrandsRemoteDataSource)
  class BrandsRemoteDataSourceImpl implements BrandsRemoteDataSource{

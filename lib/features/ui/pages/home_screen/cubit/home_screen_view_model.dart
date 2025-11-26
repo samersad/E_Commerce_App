@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../../core/utils/app_assets.dart';
-import '../../tabs/categories_tab/categories_tab.dart';
 import '../../tabs/favorite_tab/favorite_tab.dart';
 import '../../tabs/home_tab/home_tab.dart';
+import '../../tabs/product_tab/product_tab.dart';
 import '../../tabs/profile_tab/profile_tab.dart';
 import 'home_screen_states.dart';
 
@@ -18,7 +18,7 @@ class HomeScreenViewModel extends Cubit<HomeScreenStates>{
 
   final List<Widget> tabs = [
     HomeTab(),
-    CategoriesTab(),
+    ProductTab(),
     FavoriteTab(),
     ProfileTab(),
   ];
