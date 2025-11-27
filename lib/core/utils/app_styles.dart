@@ -112,8 +112,13 @@ class AppStyles{
   fontWeight: FontWeight.w700,
     color: AppColors.redColor
   );
-  static  TextStyle bold14primaryDark=TextStyle(
-  fontSize: 14,
+  static  TextStyle bold18primaryDark=TextStyle(
+  fontSize: 18,
+  fontWeight: FontWeight.bold,
+    color: AppColors.primaryDark
+  );
+  static  TextStyle bold12primaryDark=TextStyle(
+  fontSize: 12,
   fontWeight: FontWeight.bold,
     color: AppColors.primaryDark
   );
