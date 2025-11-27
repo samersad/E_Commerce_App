@@ -11,6 +11,7 @@ import 'package:e_commerce_app/features/ui/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../config/di.dart';
 import 'cubit/home_tab_view_model.dart';
@@ -83,9 +84,20 @@ class _HomeTabState extends State<HomeTab> {
                   },);
                   }
                   else if (state is CategoriesSuccessState) {
-                    return _buildCategoryBrandSection(list: state.categoriesList);
+                    return buildCategoryBrandSection(list: state.categoriesList,isLoading: false);
                   }
+                  if (state is CategoriesOrBrandsLoadingState) {
+                    return buildCategoryBrandSection(isLoading: true,
+                      list: List.generate(50, (index) => CategoryOrBrands(
+                        id: "",
+                        name: "",
+                        slug: "",
+                        createdAt: "",
+                        updatedAt: "",
+                      )),
 
+                    );
+                  }
                   else{
                     return LoadingWidget();
                   }
@@ -106,11 +118,23 @@ class _HomeTabState extends State<HomeTab> {
                 builder: (context, state) {
                   if (state is CategoriesOrBrandsErrorState) {
                     return  MainErrorWidget(errorMessage: state.message,onPressed: () {
-                      viewModel.getCategories();
+                      viewModel.getBrands();
                     },);
                   }
                   else if (state is BrandsSuccessState) {
-                    return _buildCategoryBrandSection(list: state.brandsList);
+                    return buildCategoryBrandSection(list: state.brandsList,isLoading: false);
+                  }
+                  if (state is CategoriesOrBrandsLoadingState) {
+                    return buildCategoryBrandSection(isLoading: true,
+                      list: List.generate(50, (index) => CategoryOrBrands(
+                        id: "",
+                        name: "",
+                        slug: "",
+                        createdAt: "",
+                        updatedAt: "",
+                      )),
+
+                    );
                   }
                   else{
                     return LoadingWidget();
@@ -189,22 +213,27 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  SizedBox _buildCategoryBrandSection({required List<CategoryOrBrands>? list}) {
-    return SizedBox(
-      height: 300.h,
-      width: double.infinity,
-      child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 16.h,
-          crossAxisSpacing: 16.w,
+  Skeletonizer buildCategoryBrandSection({required List<CategoryOrBrands>? list ,required bool  isLoading}) {
+    return Skeletonizer(
+      enabled: isLoading,
+      enableSwitchAnimation: true,
+      ignoreContainers: false,
+      child: SizedBox(
+        height: 300.h,
+        width: double.infinity,
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 16.h,
+            crossAxisSpacing: 16.w,
+          ),
+          scrollDirection: Axis.horizontal,
+          physics: const ScrollPhysics(),
+          itemCount: list!.length,
+          itemBuilder: (context, index) {
+            return CategoryOrBrandItem(item: list![index],);
+          },
         ),
-        scrollDirection: Axis.horizontal,
-        physics: const ScrollPhysics(),
-        itemCount: list!.length,
-        itemBuilder: (context, index) {
-          return CategoryOrBrandItem(item: list![index],);
-        },
       ),
     );
   }

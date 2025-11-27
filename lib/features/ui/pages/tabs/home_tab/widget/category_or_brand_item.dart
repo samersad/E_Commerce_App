@@ -28,7 +28,7 @@ class CategoryOrBrandItem extends StatelessWidget {
                   radius: 50.r,
                 );
               },
-              placeholder: (context, url) => CircularProgressIndicator(color: AppColors.primaryColor,),
+           //   placeholder: (context, url) => CircularProgressIndicator(color: AppColors.primaryColor,),
               errorWidget: (context, url, error) => Icon(Icons.error),
             ),
         ),
