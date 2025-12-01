@@ -16,7 +16,7 @@ class CustomTextFormField extends StatefulWidget {
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
     this.obscuringCharacter = '•',
-    required this.controller,
+     this.controller,
     this.prefixIconColor,
     this.suffixIconColor,
     this.maxLines=1,

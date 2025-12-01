@@ -122,6 +122,16 @@ class AppStyles{
   fontWeight: FontWeight.bold,
     color: AppColors.primaryDark
   );
+  static  TextStyle bold20primaryDark=TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.bold,
+    color: AppColors.primaryDark
+  );
+  static  TextStyle bold16primaryDark=TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.bold,
+    color: AppColors.primaryDark
+  );
 
 
 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../config/di.dart';
+import '../../../../core/cache/shared_prefs_helper.dart';
 import '../../../../core/utils/app_assets.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_routes.dart';
@@ -50,7 +51,8 @@ RegisterViewModel viewModel =getIt<RegisterViewModel>();
             pos: "Ok",
             nav: "Dismiss",
             posAction: () {
-              Navigator.of(context).pop();
+              SharedPrefsHelper.saveData(key: "token", value: state.authResponse.token ??"");
+              Navigator.of(context).pushReplacementNamed(AppRoutes.homeRoute);
             },
           );
         }

@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/core/utils/app_routes.dart';
+import 'package:e_commerce_app/features/ui/pages/cart_screen/cubit/cart_screen_view_model.dart';
 import 'package:e_commerce_app/features/ui/pages/tabs/product_tab/widget/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../config/di.dart';
 import '../../../../../core/utils/app_colors.dart';
+import '../../../../../core/utils/flutter_toast.dart';
+import '../../cart_screen/cubit/cart_screen_states.dart';
 import '../home_tab/widget/loading_widget.dart';
 import '../home_tab/widget/main_error_widget.dart';
 import 'cubit/product_tab_states.dart';
@@ -31,61 +35,77 @@ class _ProductTabState extends State<ProductTab> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: BlocBuilder<ProductTabViewModel, ProductTabStates>(
-        bloc: viewModel,
-        builder: (context, state) {
-          if (state is ProductTabErrorState) {
-            return MainErrorWidget(errorMessage: state.message);
+      child: BlocListener<CartScreenViewModel,CartScreenStates>(
+        listener: (context, state) {
+          if (state is AddCartSuccessState) {
+            ToastMessage.toastMsg("Added item Successfully", AppColors.greenColor);
           }
-          else if (state is ProductTabSuccessState) {
-            return Column(
-              children: [
-                Expanded(
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 2 / 2.5.h,
-                      crossAxisSpacing: 16.w,
-                      mainAxisSpacing: 16.h,
-                    ),
-                    itemCount: state.productsList!.length,
-                    itemBuilder: (context, index) {
-                      return ProductItem(
-                        productItem: state.productsList![index],
-                        isLoading: false,
-                      );
-                    },
-                  ),
-                ),
-              ],
-            );
+          else if (state is AddCartErrorState) {
+            ToastMessage.toastMsg("${state.message}", AppColors.redColor);
           }
-          else if (state is ProductTabLoadingState) {
-            return GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 2 / 2.5.h,
-                crossAxisSpacing: 16.w,
-                mainAxisSpacing: 16.h,
-              ),
-              itemCount: 30,
-              itemBuilder: (context, index) {
-                return ProductItem(
-                  productItem: Product(
-                    id: "",
-                    title: "",
-                    description: "",
-                    imageCover: "",
-                    price: 0,
-                    ratingsAverage: 0,
-                  ),
-                  isLoading: true,
-                );
-              },
-            );
-          }
-          return LoadingWidget();
         },
+        child: BlocBuilder<ProductTabViewModel, ProductTabStates>(
+          bloc: viewModel,
+          builder: (context, state) {
+            if (state is ProductTabErrorState) {
+              return MainErrorWidget(errorMessage: state.message);
+            }
+            else if (state is ProductTabSuccessState) {
+              return Column(
+                children: [
+                  Expanded(
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 2 / 2.5.h,
+                        crossAxisSpacing: 16.w,
+                        mainAxisSpacing: 16.h,
+                      ),
+                      itemCount: state.productsList!.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushNamed(AppRoutes.productDetailsRoute,arguments:state.productsList?[index] );
+                          },
+                          child: ProductItem(
+                            productItem: state.productsList![index],
+                            isLoading: false,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+            }
+            else if (state is ProductTabLoadingState) {
+              return GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 2 / 2.5.h,
+                  crossAxisSpacing: 16.w,
+                  mainAxisSpacing: 16.h,
+                ),
+                itemCount: 30,
+                itemBuilder: (context, index) {
+                  return ProductItem(
+                    productItem: Product(
+                      id: "",
+                      title: "",
+                      description: "",
+                      imageCover: "",
+                      price: 0,
+                      ratingsAverage: 0,
+                    ),
+                    isLoading: true,
+                  );
+                },
+              );
+            }
+            return LoadingWidget();
+          },
+        ),
       ),
     );
   }
