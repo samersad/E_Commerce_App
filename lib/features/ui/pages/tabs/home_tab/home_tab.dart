@@ -44,27 +44,6 @@ class _HomeTabState extends State<HomeTab> {
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 16.h,
           children: [
-            SizedBox(height: 40.h),
-            Image.asset(AppAssets.routeHome),
-            Row(
-              children: [
-                Expanded(
-                  child: CustomTextFormField(
-                    controller: searchCtrl,
-                    fillColor: AppColors.whiteColor,
-                    borderSideColor: AppColors.primaryColor,
-                    hintText: "What do you search for?",
-                    hintStyle: AppStyles.bold14primary,
-                    prefixIconName: Icon(
-                      Icons.search,
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                ),
-                SizedBox(width: 24.w),
-                Icon(Icons.shopping_cart, color: AppColors.primaryColor),
-              ],
-            ),
             bannersShow(),
             lineBreak(name: "Categories"),
             BlocBuilder<HomeTabViewModel,HomeTabStates>(

@@ -12,5 +12,7 @@ class AppAssets{
   static const String paner1 = 'assets/images/paner1.png';
   static const String paner2 = 'assets/images/paner2.png';
   static const String paner3 = 'assets/images/paner3.png';
+  static const String star = 'assets/images/star.png';
+  static const String shoppingCart= 'assets/images/shopping cart_icon.png';
 
 }

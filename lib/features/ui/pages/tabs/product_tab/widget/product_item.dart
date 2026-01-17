@@ -1,8 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_app/core/utils/app_colors.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
+import 'package:e_commerce_app/core/utils/flutter_toast.dart';
 import 'package:e_commerce_app/domain/entities/response/product/product.dart';
+import 'package:e_commerce_app/features/ui/pages/cart_screen/cubit/cart_screen_states.dart';
+import 'package:e_commerce_app/features/ui/pages/cart_screen/cubit/cart_screen_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -77,8 +81,6 @@ Product productItem;
                         ),
                         maxLines:1,
                       ),
-
-
                     ],
                   ),
                   SizedBox(height: 2.h,),
@@ -94,6 +96,7 @@ Product productItem;
                       Spacer(),
                       InkWell(
                         onTap: () {
+                          CartScreenViewModel.get(context).addToCart(productItem.id ??"");
                         },
                         splashColor: AppColors.transparentColor,
                         child: Icon(Icons.add_circle,size: 40.sp,color: AppColors.primaryColor,),

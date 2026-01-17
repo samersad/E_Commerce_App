@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/config/di.dart';
+import 'package:e_commerce_app/core/cache/shared_prefs_helper.dart';
 import 'package:e_commerce_app/core/utils/app_validator.dart';
 import 'package:e_commerce_app/core/utils/dialog_utils.dart';
 import 'package:e_commerce_app/features/ui/auth/auth_states.dart';
@@ -29,7 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginViewModel, AuthStates>(
+    return
+      BlocListener<LoginViewModel, AuthStates>(
       bloc: viewModel,
       listener: (context, state) {
         if (state is AuthLoadingState) {
@@ -52,7 +54,8 @@ class _LoginScreenState extends State<LoginScreen> {
             pos: "Ok",
             nav: "Dismiss",
             posAction: () {
-              Navigator.of(context).pop();
+              SharedPrefsHelper.saveData(key: "token", value: state.authResponse.token ??"");
+              Navigator.of(context).pushReplacementNamed(AppRoutes.homeRoute);
             },
           );
         }
