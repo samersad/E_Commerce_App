@@ -13,6 +13,7 @@ import 'package:e_commerce_app/domain/repositories/cart/cart_repository.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/exception/app_exceptions.dart';
+import '../../../model/request/count_request_dto.dart';
 @Injectable(as: CartRemoteDataSource)
  class CartRemoteDataSourceImpl implements CartRemoteDataSource{
 
@@ -40,6 +41,35 @@ import '../../../../core/exception/app_exceptions.dart';
       var getItemsCartResponse=await apiServices.getItemsCart(token ??'');
       //todo addCartResponseDto to AddCartResponse
       return getItemsCartResponse.toGetCartResponse();
+    }
+    on DioException catch(e){
+      String message=(e.error  as AppExceptions).message;
+      throw ServerException(message: message);
+    }
+  }
+
+  @override
+  Future<GetCartResponse> deleteItemsCart(String productId) async {
+    try{
+      String? token=SharedPrefsHelper.getData(key: "token") as String;
+      var deleteItemsCartResponse=await apiServices.deleteItemsCart(productId,token ??'');
+      //todo addCartResponseDto to AddCartResponse
+      return deleteItemsCartResponse.toGetCartResponse();
+    }
+    on DioException catch(e){
+      String message=(e.error  as AppExceptions).message;
+      throw ServerException(message: message);
+    }
+  }
+
+  @override
+  Future<GetCartResponse> updateCountsCart(String productId, int count) async {
+    try{
+      String? token=SharedPrefsHelper.getData(key: "token") as String;
+      CountRequestDto countRequestDto =CountRequestDto(count: "$count");
+      var updateCountsCartResponse=await apiServices.updateItemsCart(productId,token ??'',countRequestDto);
+      //todo addCartResponseDto to AddCartResponse
+      return updateCountsCartResponse.toGetCartResponse();
     }
     on DioException catch(e){
       String message=(e.error  as AppExceptions).message;

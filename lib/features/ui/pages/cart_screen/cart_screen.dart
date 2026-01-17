@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/utils/flutter_toast.dart';
 import 'package:e_commerce_app/features/ui/pages/tabs/home_tab/widget/loading_widget.dart';
 import 'package:e_commerce_app/features/ui/pages/tabs/home_tab/widget/main_error_widget.dart';
 import 'package:flutter/material.dart';
@@ -32,27 +33,35 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: _customAppBar(context),
-        body: BlocBuilder<CartScreenViewModel, CartScreenStates>(
-            builder: (context, state) {
-           if (state is GetCartErrorState) {
-                return MainErrorWidget(errorMessage: state.message);
-              } else if (state is GetCartSuccessState) {
-                return Column(
-                  children: [
-                    Expanded(
-                        child: ListView.builder(
-                          itemCount: state.getCart.products!.length??0,
-                          itemBuilder: (context, index) {
-                            return CartItem(getProducts: state.getCart.products![index]);
-                          },
-                        )),
-                    _buildCheckOut(context: context,price: state.getCart.totalCartPrice!.toDouble() ),
-                  ],
-                );
-              } else {
-                return LoadingWidget();
-              }
-            }));
+        body: BlocListener<CartScreenViewModel, CartScreenStates>(
+          listener: (context, state) {
+            if (state is GetCartSuccessState) {
+                ToastMessage.toastMsg(state.message!, AppColors.greenColor);
+            }
+          },
+
+          child: BlocBuilder<CartScreenViewModel, CartScreenStates>(
+              builder: (context, state) {
+             if (state is GetCartErrorState) {
+                  return MainErrorWidget(errorMessage: state.message);
+                } else if (state is GetCartSuccessState) {
+                  return Column(
+                    children: [
+                      Expanded(
+                          child: ListView.builder(
+                            itemCount: state.getCart.products!.length??0,
+                            itemBuilder: (context, index) {
+                              return CartItem(getProducts: state.getCart.products![index]);
+                            },
+                          )),
+                      _buildCheckOut(context: context,price: state.getCart.totalCartPrice!.toDouble() ),
+                    ],
+                  );
+                } else {
+                  return LoadingWidget();
+                }
+              }),
+        ));
   }
   Widget _buildCheckOut({required BuildContext context,required double price}) {
     return Padding(

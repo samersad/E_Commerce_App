@@ -22,6 +22,37 @@ class GetCartErrorState extends CartScreenStates{
 }
 class GetCartSuccessState extends CartScreenStates{
 GetCart getCart;
-GetCartSuccessState({required this.getCart});
+String? message;
+
+GetCartSuccessState({required this.getCart, this.message});
+
 }
+
+
+
+class  DeleteItemsCartLoadingState extends CartScreenStates{}
+class DeleteItemsCartErrorState extends CartScreenStates{
+  String message;
+
+  DeleteItemsCartErrorState({required this.message});
+}
+class DeleteItemsCartSuccessState extends CartScreenStates{
+  GetCart getCart;
+
+  DeleteItemsCartSuccessState({required this.getCart});
+}
+
+class UpdateCountsCartLoadingState extends CartScreenStates{}
+class UpdateCountsCartErrorState extends CartScreenStates{
+  String message;
+
+  UpdateCountsCartErrorState({required this.message});
+}
+class UpdateCountsCartSuccessState extends CartScreenStates{
+  GetCart getCart;
+
+  UpdateCountsCartSuccessState({required this.getCart});
+}
+
+
 

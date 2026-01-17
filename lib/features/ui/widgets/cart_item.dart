@@ -46,63 +46,25 @@ class _CartItemState extends State<CartItem> {
                       _buildItemHeader(widget.getProducts.product!.title ?? '',
                           context, widget.getProducts.product!.id ?? ''),
                       SizedBox(height: 5.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          _buildItemPrice(price:widget.getProducts.price?.toDouble() ?? 0.0 ),
-                          Container(
-                            height: 50.h,
-                            decoration: BoxDecoration(
-                              color: AppColors.primaryColor,
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    //todo: decrement count
-                                    int count = widget.getProducts.count!.toInt();
-                                    count--;
-                                    setState(() {
-                                    });
-                                    // CartScreenViewModel.get(context)
-                                    //     .updateItemCart(
-                                    //     getProductEntity.product?.id ?? "",
-                                    //     count);
-                                  },
-                                  icon: Icon(
-                                    Icons.remove_circle_outline_rounded,
-                                    color: AppColors.whiteColor,
-                                    size: 25.sp,
-                                  ),
-                                ),
-                                CustomTxt(
-                                  text: '${widget.getProducts.count}',
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.bold,
-                                  fontColor: AppColors.whiteColor,
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    //todo: increment count
-                                    int count = widget.getProducts.count!.toInt();
-                                    count++;
-                                    // CartScreenViewModel.get(context)
-                                    //     .updateItemCart(
-                                    //     getProductEntity.product?.id ?? "",
-                                    //     count);
-                                  },
-                                  icon: Icon(
-                                    Icons.add_circle_outline_rounded,
-                                    color: AppColors.whiteColor,
-                                    size: 25.sp,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
+                      _buildItemPrice(price:widget.getProducts.price?.toDouble() ?? 0.0,
+                        count: widget.getProducts.count!.toInt(),
+                        onPressedDecrement: () {
+                          int count = widget.getProducts.count!.toInt();
+                          if (count > 1) count--;
+                          CartScreenViewModel.get(context).updateCountsCart(
+                              widget.getProducts.product?.id ?? "",
+                              count);
+                        },
+                        onPressedIncrement: () {
+                          int count = widget.getProducts.count!.toInt();
+                          count++;
+                          CartScreenViewModel.get(context).updateCountsCart(
+                              widget.getProducts.product?.id ?? "",
+                              count);
+
+                        },
+
+
                       )
                     ],
                   ),
@@ -148,10 +110,10 @@ class _CartItemState extends State<CartItem> {
       children: [
         Expanded(child: CustomTxt(text: title)),
         InkWell(
-          // onTap: () {
-          //   // TODO: delete item from cart
-          //   CartScreenViewModel.get(context).deleteItemCart(productId);
-          // },
+          onTap: () {
+            // TODO: delete item from cart
+            CartScreenViewModel.get(context).deleteItemsCart(productId);
+          },
           child: Icon(
             CupertinoIcons.delete,
             color: AppColors.primaryColor,
@@ -161,66 +123,60 @@ class _CartItemState extends State<CartItem> {
       ],
     );
   }
-  Widget _buildItemPrice({required double price})  {
+  Widget _buildItemPrice({required double price,
+    required int count,required VoidCallback onPressedDecrement,
+    required VoidCallback onPressedIncrement})  {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         CustomTxt(
-          text: 'Egy $price',
+          text: 'Egy ${price*count}',
           fontWeight: FontWeight.bold,
           fontSize: 18.sp,
         ),
-        // _buildQuantityControl(
-        //     getProductEntity.count!.toInt(), context, getProductEntity.product?.id ?? ''),
+        _buildQuantityControl(count,
+             onPressedDecrement,
+            onPressedIncrement)
+
       ],
     );
   }
-  //
-  // Widget _buildQuantityControl(
-  //     int count, BuildContext context, String productId) {
-  //   return Container(
-  //     height: 50.h,
-  //     decoration: BoxDecoration(
-  //       color: AppColors.primaryColor,
-  //       borderRadius: BorderRadius.circular(20.r),
-  //     ),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //       children: [
-  //         IconButton(
-  //           onPressed: () {
-  //             //todo: decrement count
-  //             print('before decrement: NumOfCount: $count');
-  //             CartScreenViewModel.get(context).updateItemCart(productId, count--);
-  //             print('After decrement: NumOfCount: $count');
-  //           },
-  //           icon: Icon(
-  //             Icons.remove_circle_outline_rounded,
-  //             color: AppColors.whiteColor,
-  //             size: 25.sp,
-  //           ),
-  //         ),
-  //         CustomTxt(
-  //           text: '$count',
-  //           fontSize: 14.sp,
-  //           fontWeight: FontWeight.bold,
-  //           fontColor: AppColors.whiteColor,
-  //         ),
-  //         IconButton(
-  //           onPressed: () {
-  //             //todo: increment count
-  //             print('before increment: NumOfCount: $count');
-  //             CartScreenViewModel.get(context).updateItemCart(productId, count++);
-  //             print('After increment: NumOfCount: $count');
-  //           },
-  //           icon: Icon(
-  //             Icons.add_circle_outline_rounded,
-  //             color: AppColors.whiteColor,
-  //             size: 25.sp,
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget _buildQuantityControl(
+      int count,
+      VoidCallback onPressedDecrement,VoidCallback onPressedIncrement,) {
+    return Container(
+      height: 50.h,
+      decoration: BoxDecoration(
+        color: AppColors.primaryColor,
+        borderRadius: BorderRadius.circular(20.r),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          IconButton(
+            onPressed: onPressedDecrement,
+            icon: Icon(
+              Icons.remove_circle_outline_rounded,
+              color: AppColors.whiteColor,
+              size: 25.sp,
+            ),
+          ),
+          CustomTxt(
+            text: '$count',
+            fontSize: 14.sp,
+            fontWeight: FontWeight.bold,
+            fontColor: AppColors.whiteColor,
+          ),
+          IconButton(
+            onPressed: onPressedIncrement,
+            icon: Icon(
+              Icons.add_circle_outline_rounded,
+              color: AppColors.whiteColor,
+              size: 25.sp,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

@@ -8,6 +8,7 @@ class AppStyles{
   ////////////////
   static  TextStyle bold20primary=TextStyle(
   fontSize: 20,
+
   fontWeight: FontWeight.bold,
     color: AppColors.primaryColor
   );

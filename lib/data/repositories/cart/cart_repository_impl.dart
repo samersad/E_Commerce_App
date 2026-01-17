@@ -17,4 +17,16 @@ import 'package:injectable/injectable.dart';
   Future<GetCartResponse> getItemsCart() {
    return remoteDataSource.getItemsCart();
   }
+
+  @override
+  Future<GetCartResponse> deleteItemsCart(String productId) {
+    return remoteDataSource.deleteItemsCart(productId);
+
+  }
+
+  @override
+  Future<GetCartResponse> updateCountsCart(String productId, int count) {
+    return remoteDataSource.updateCountsCart(productId, count);();
+
+  }
 }

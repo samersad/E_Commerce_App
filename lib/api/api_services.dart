@@ -8,6 +8,7 @@ import 'package:e_commerce_app/domain/entities/response/cart/get_cart/get_cart_r
 import 'package:retrofit/retrofit.dart';
 
 import 'model/request/add_product_request_dto.dart';
+import 'model/request/count_request_dto.dart';
 import 'model/request/login_request_dto.dart';
 import 'model/request/register_request_dto.dart';
 import 'model/response/cart/add_cart/add_cart_response_dto.dart';
@@ -38,5 +39,19 @@ abstract class ApiServices {
   @GET(EndPoints.addToCartApi)
   Future<GetCartResponseDto> getItemsCart(
       @Header("token") String token
+      );
+
+  @DELETE(EndPoints.deleteItemsCartApi)
+  Future<GetCartResponseDto> deleteItemsCart(
+      @Path("productId") String productId,
+      @Header("token") String token
+      );
+
+  @PUT(EndPoints.deleteItemsCartApi)
+  Future<GetCartResponseDto> updateItemsCart(
+      @Path("productId") String productId,
+      @Header("token") String token,
+      @Body() CountRequestDto countRequestDto
+
       );
 }
